@@ -1,0 +1,6 @@
+# TODO parse nvidia-smi device output, iterate
+CARD_COUNT=6
+for (( i=0; i<$CARD_COUNT; i++)); do
+	nvidia-settings -c :0 -a '[gpu:$i]/GPUMemoryTransferRateOffset[3]={{ nvidia_overclock_memory_offset }}'
+	nvidia-settings -c :0 -a '[gpu:$i]/GPUGraphicsClockOffset[3]={{ nvidia_overclock_cpu_offset }}'
+done

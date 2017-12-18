@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: "Jon Robison"
+  description: "Ansible role that sets up overclocking for nvidia cards"
+  license: GPL3
+  min_ansible_version: 1.9
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  categories:
+    - cryptocurrency
+dependencies: []

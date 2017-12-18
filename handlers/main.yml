@@ -1,0 +1,4 @@
+---
+- name: script changed
+  script: "{{ nvidia_overclock_script_path }}"
+  become: True
