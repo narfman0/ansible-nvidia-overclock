@@ -1,7 +1,7 @@
 #!/bin/bash
 CARD_COUNT=`lspci | grep {{ nvidia_overclock_cards_regex }} | wc -l`
-for i in `seq 0 $CARD_COUNT`
+for i in `seq 0 $((CARD_COUNT-1))`
 do
-	DISPLAY=:0 XAUTHORITY=/var/run/lightdm/root/:0 nvidia-settings -c :0 -a '[gpu:$i]/GPUMemoryTransferRateOffset[3]={{ nvidia_overclock_memory_offset }}'
-	DISPLAY=:0 XAUTHORITY=/var/run/lightdm/root/:0 nvidia-settings -c :0 -a '[gpu:$i]/GPUGraphicsClockOffset[3]={{ nvidia_overclock_cpu_offset }}'
+	DISPLAY=:0 XAUTHORITY=/var/run/lightdm/root/:0 nvidia-settings -c :0 -a "[gpu:$i]/GPUMemoryTransferRateOffset[3]={{ nvidia_overclock_memory_offset }}"
+	DISPLAY=:0 XAUTHORITY=/var/run/lightdm/root/:0 nvidia-settings -c :0 -a "[gpu:$i]/GPUGraphicsClockOffset[3]={{ nvidia_overclock_cpu_offset }}"
 done
