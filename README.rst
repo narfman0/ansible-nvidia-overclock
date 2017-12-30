@@ -9,6 +9,14 @@ nvidia-overclock
 
 Ansible role that configured nvidia overclocking for linux (ubuntu) hosts
 
+TODO
+----
+
+* Big missing part is cuda. Cuda is hard to programmatically install, but this
+  script may target 16.04 (LTS) first and work from there possibly.
+
+* Currently restarts on coolbits *shrugs*
+
 Installation
 ------------
 

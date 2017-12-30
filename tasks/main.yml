@@ -1,9 +1,20 @@
 ---
-- name: Create user
+- name: Verify overclock script executed on startup
   lineinfile:
     path: /etc/rc.local
     regexp: '.+{{ nvidia_overclock_script_name }}$'
     line: '{{ nvidia_overclock_script_path }}'
+
+- name: Check if xorg file exists
+  stat:
+    path: /etc/X11/xorg.conf
+  register: xorgfile
+
+- name: Create blank xorg.conf if it doesnt exist already
+  file:
+    path: /etc/X11/xorg.conf
+    state: touch
+  when: xorgfile.stat.exists == False
 
 - name: Check if coolbits enabled already
   command: awk /Coolbits/ /etc/X11/xorg.conf
@@ -11,17 +22,7 @@
   changed_when: false
 
 - name: Enable coolbits (overclocking)
-  command: nvidia-xconfig --allow-empty-initial-configuration --enable-all-gpus --cool-bits=28 --separate-x-screens
-  when: coolbits.rc == 0
-
-- name: Reboot after setting coolbits
-  shell: reboot
-  async: 0
-  poll: 0
-  when: coolbits.rc == 0
-
-- name: Wait for host to come back up
-  local_action: wait_for host={{ ansible_ssh_host }} state=started
+  include: coolbits.yml
   when: coolbits.rc == 0
 
 - name: Generate script file
