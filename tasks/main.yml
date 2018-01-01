@@ -3,7 +3,17 @@
   lineinfile:
     path: /etc/rc.local
     regexp: '.+{{ nvidia_overclock_script_name }}$'
+    insertbefore: '^exit 0$'
     line: '{{ nvidia_overclock_script_path }}'
+
+- name: Generate script file
+  template: src=nvidia-overclock.sh.j2
+            dest={{ nvidia_overclock_script_path }}
+            owner=root
+            group=root
+            mode=640
+  notify:
+  - script changed
 
 - name: Check if xorg file exists
   stat:
@@ -24,12 +34,5 @@
 - name: Enable coolbits (overclocking)
   include: coolbits.yml
   when: coolbits.rc == 0
-
-- name: Generate script file
-  template: src=nvidia-overclock.sh.j2
-            dest={{ nvidia_overclock_script_path }}
-            owner=root
-            group=root
-            mode=640
   notify:
   - script changed
