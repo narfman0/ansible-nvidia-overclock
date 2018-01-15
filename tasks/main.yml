@@ -11,9 +11,9 @@
             dest={{ nvidia_overclock_script_path }}
             owner=root
             group=root
-            mode=640
+            mode=750
   notify:
-  - script changed
+  - nvidia-overclock script changed
 
 - name: Check if xorg file exists
   stat:
@@ -35,4 +35,4 @@
   include: coolbits.yml
   when: coolbits.rc == 0
   notify:
-  - script changed
+  - nvidia-overclock script changed

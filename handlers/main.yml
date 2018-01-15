@@ -1,4 +1,4 @@
 ---
-- name: script changed
+- name: nvidia-overclock script changed
   script: "{{ nvidia_overclock_script_path }}"
   become: True
