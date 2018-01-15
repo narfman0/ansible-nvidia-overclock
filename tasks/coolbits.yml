@@ -3,9 +3,15 @@
   command: nvidia-xconfig --allow-empty-initial-configuration --enable-all-gpus --cool-bits=28 --separate-x-screens
 
 - name: Reboot after setting coolbits
-  shell: reboot && sleep 1
-  async: 0
+  command: sleep 2 and /sbin/shutdown -r now "Software upgrade requires reboot"
+  async: 1
   poll: 0
+  ignore_errors: True
 
 - name: Wait for host to come back up
-  local_action: wait_for host={{ ansible_ssh_host }} state=started
+  wait_for:
+    host: "{{ ansible_ssh_host }}"
+    state: started
+    delay: 30
+    timeout: 300
+    connection: local
